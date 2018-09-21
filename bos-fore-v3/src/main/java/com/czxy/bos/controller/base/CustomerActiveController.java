@@ -23,6 +23,10 @@ public class CustomerActiveController {
      * 邮件激活后，到登录页面显示激活提示信息
      * @param telephone
      * @param activecode
+     *
+     *
+     *
+     *
      * @return
      */
     @GetMapping("/activeMail")
