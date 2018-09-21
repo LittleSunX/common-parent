@@ -43,6 +43,7 @@ public class CustomerActiveController {
         }
 
         //删除redis存放的激活码，已经使用了
+
         redisTemplate.delete(telephone);
 
         //3 使用telephone通过crm系统查询客户，如果状态不是0，提示该账户不能激活。
