@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bos-dao-v3/bos-dao-v3.iml" filepath="$PROJECT_DIR$/bos-dao-v3/bos-dao-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-domain-v3/bos-domain-v3.iml" filepath="$PROJECT_DIR$/bos-domain-v3/bos-domain-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-fore-v3/bos-fore-v3.iml" filepath="$PROJECT_DIR$/bos-fore-v3/bos-fore-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-management-v3/bos-management-v3.iml" filepath="$PROJECT_DIR$/bos-management-v3/bos-management-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-service-v3/bos-service-v3.iml" filepath="$PROJECT_DIR$/bos-service-v3/bos-service-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-sms-v3/bos-sms-v3.iml" filepath="$PROJECT_DIR$/bos-sms-v3/bos-sms-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-util-v3/bos-util-v3.iml" filepath="$PROJECT_DIR$/bos-util-v3/bos-util-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-parent-v3.iml" filepath="$PROJECT_DIR$/common-parent-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crm-dao-v3/crm-dao-v3.iml" filepath="$PROJECT_DIR$/crm-dao-v3/crm-dao-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crm-domain-v3/crm-domain-v3.iml" filepath="$PROJECT_DIR$/crm-domain-v3/crm-domain-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crm-management-v3/crm-management-v3.iml" filepath="$PROJECT_DIR$/crm-management-v3/crm-management-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crm-service-v3/crm-service-v3.iml" filepath="$PROJECT_DIR$/crm-service-v3/crm-service-v3.iml" />
+    </modules>
+  </component>
+</project>

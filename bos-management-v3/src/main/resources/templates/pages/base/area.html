@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!--引入公共内容-->
+	<span th:replace="/pages/common :: css('区域设置')"></span>
+	<span th:replace="/pages/common :: js"></span>
+
+		<!-- 导入ocupload -->
+		<script type="text/javascript" src="/js/ocupload/jquery.ocupload-1.1.2.js"></script>
+		<script type="text/javascript">
+			// function doAdd(){
+			// 	$('#addWindow').window("open");
+			// }
+			
+			/*function doView(){
+				alert("修改...");
+			}*/
+			
+			function doDelete(){
+				alert("删除...");
+			}
+			
+			//工具栏
+			var toolbar = [ {
+				id : 'button-edit',	
+				text : '修改',
+				iconCls : 'icon-edit',
+				handler : function(){
+                    // 获取当前datagrid选中数据
+                    var rows = $("#grid").datagrid('getSelections');
+                    if(rows.length != 1){
+                        // 没选 或 多选
+                        $.messager.alert("提示信息","修改数据时，只能选中一行","warning");
+                    }else{
+                        // 只选中一行
+                        var row = rows[0];
+                        // 进行表单回显操作
+                        $("#updateForm").form('load',row);
+                        // 显示窗口
+                        $("#updateWindow").window('open');
+                    }
+                }
+			}, {
+				id : 'button-add',
+				text : '增加',
+				iconCls : 'icon-add',
+				handler : function () {
+                    // 重置表单
+                    $("#addWindow").form('clear');
+                    // alert('增加');
+                    $("#addWindow").window('open');
+                }
+			}, {
+				id : 'button-delete',
+				text : '删除',
+				iconCls : 'icon-cancel',
+				handler : function(){
+                    var count = 0;
+                    var rows = $("#grid").datagrid("getSelections");
+                    if(rows.length == 0){
+                        // 没选 或 多选
+                        $.messager.alert("提示信息","你尚未选中数据，请先选中数据","warning");
+                    }else{
+                        // 选中数据
+                        // 获取选中所有id ，拼接字符串方法
+
+                        var array = new Array();
+                        for(var i=0; i<rows.length; i++){
+                            array.push(rows[i].id);//添加到数组中(push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。)
+
+                        }
+                        // 生成字符串，以逗号分隔
+                        var ids = array.join(",");
+
+
+                        $.messager.confirm("操作提示","您确定要删除所选"+array.length+"条吗？" , function(r){
+                            if(r){
+
+                                // 将字符串发送服务器
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/area",
+                                    data: {ids:ids,"_method":"DELETE"},
+                                    statusCode : {
+                                        200 : function(data){
+                                            $.messager.alert('提示',data,'info');
+                                            $('#grid').datagrid('reload');
+                                        },
+                                        500 : function(data){
+                                            $.messager.alert('提示',data.responseText,'error');
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+                }
+			}, {
+				id : 'button-import',
+				text : '导入',
+				iconCls : 'icon-redo',
+				handler : function(){
+
+				}
+			}, {
+				id : 'button-search',
+				text : '查询',
+				iconCls : 'icon-search',
+				handler : function(){
+					$("#searchWindow").window("open");
+				}
+			}];
+			// 定义列
+			var columns = [ [ {
+				field : 'id',
+				checkbox : true,
+			},{
+				field : 'province',
+				title : '省',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'city',
+				title : '市',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'district',
+				title : '区',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'postcode',
+				title : '邮编',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'shortcode',
+				title : '简码',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'citycode',
+				title : '城市编码',
+				width : 200,
+				align : 'center'
+			} ] ];
+			
+			$(function(){
+				// 先将body隐藏，再显示，不会出现页面刷新效果
+				$("body").css({visibility:"visible"});
+				
+				// 区域管理数据表格
+				$('#grid').datagrid( {
+					iconCls : 'icon-forward',
+					fit : true,
+					border : false,
+					rownumbers : true,
+					striped : true,
+					pageList: [30,50,100],
+					pageSize : 30,
+					pagination : true,
+					toolbar : toolbar,
+					url : "/area",
+					//idField : 'id',
+					columns : columns,
+					onDblClickRow : doDblClickRow,
+					method : "get"
+				});
+				
+			$(function () {
+                // 添加、修改区域窗口
+                $('#addWindow').window({
+                    title: '添加修改区域',
+                    width: 400,
+                    modal: true,
+                    shadow: true,
+                    closed: true,
+                    height: 400,
+                    resizable:false
+                });
+                $('#updateWindow').window({
+                    title: '添加修改区域',
+                    width: 400,
+                    modal: true,
+                    shadow: true,
+                    closed: true,
+                    height: 400,
+                    resizable:false
+                });
+            })
+				
+				//初始化导入
+				//doImport();
+				
+			});
+		
+			function doDblClickRow(){
+				alert("双击表格数据...");
+			}
+			
+		/*	function doImport(){
+				$("#button-import").upload({
+					name: 'file', // 默认file，默认'multipart/form-data'
+					action : '/area/batchImport.html',
+			    	// 在选择文件的时候触发的事件
+			    	onSelect :function(){
+			    		// 选中文件后，关闭自动提交 
+			    		this.autoSubmit = false ;
+			    		// 判定文件格式 ，以.xls 或者 .xlsx 结尾 
+			    		var filename = this.filename();
+			    		var regex = /^.*\.(xls|xlsx)$/ ;
+			    		if(regex.test(filename)){
+			    			// 满足
+			    			this.submit();
+			    		}else{
+			    			//不满足
+			    			$.messager.alert("警告","只能上传.xls或.xlsx结尾的文件！","warning");
+			    		}
+			    	},
+			    	onComplete : function(response){
+			    		alert("文件上传成功！");
+			    	}
+				});
+			}*/
+			//查询
+			$(function(){
+				$("#searchBtn").click(function(){
+					/*var param = {
+						"province" : $("#searchForm input[name='province']").val() , 
+						"city" : $("#searchForm input[name='city']").val() , 
+						"district" : $("#searchForm input[name='district']").val() , 
+					};*/
+					/*$('#grid').datagrid("load" , param);
+					$("#searchWindow").window("close");*/
+                    $('#grid').datagrid("load" , $("#searchForm").serializeJson() );
+                    $("#searchWindow").window("close");
+
+                });
+			});
+
+
+			//文件上传
+			$(function () {
+               $("#button-import").upload({
+                   name: 'file', //上传文件组件名称
+                   enctype: 'multipart/form-data', //固定内容默认值
+                   action: '/area/batchImport', //路径
+                   // 在选择文件的时候触发的事件
+                   onSelect :function(){
+                       // 选中文件后，关闭自动提交
+                       this.autoSubmit = false ;
+                       // 判定文件格式 ，以.xls 或者 .xlsx 结尾
+                       var filename = this.filename();
+                       var regex = /^.*\.(xls|xlsx)$/ ;
+                       if(regex.test(filename)){
+                           // 满足
+                           this.submit();
+                           $("input[name='file']").val("");   //解决相同文件只能上传一次问题
+                       }else{
+                           //不满足
+                           $.messager.alert("警告","只能上传.xls或.xlsx结尾的文件！","warning");
+                       }
+                   },
+                   onComplete: function(data) {      	//上传完成事件
+                       $.messager.alert("提示",data,"info")
+				   }
+			   })
+            });
+            //添加
+            $(function () {
+
+                $("#save").click(function(){
+                    //表单校验通过后，执行程序
+                    if($("#areaFrom").form("validate")){
+                        //发送ajax
+                        $.ajax({
+                            "url":"/area",								//请求路径
+                            "data": $("#areaFrom").serializeJson(),		//请求参数（表单的所有数据）
+                            "type":"post",										//请求方式
+                            "statusCode":{
+                                201 : function( data ){
+                                    //成功代码 (成功时，第一个参数仅为提示信息)
+                                    $.messager.alert("提示", data ,"info");
+                                    //关闭窗口和刷新datagrid
+                                    $("#addWindow").window('close');
+                                    $('#grid').datagrid('reload');
+                                },
+                                500 : function( data ){
+                                    //失败代码 （失败时，第一个参数为失败的是有信息，reponseText为失败的提示信息）
+                                    $.messager.alert("提示",data.responseText ,"error");
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+            //修改
+            $(function () {
+                $("#update").click(function(){
+                    // 判断是否form中所有表单对象 都是通过校验
+                    if($("#updateForm").form('validate')){
+                        // 通过校验
+                        //提交到后台的RESTful接口
+                        $.ajax({
+                            type: "PUT",
+                            url: "/area",
+                            data: $("#updateForm").serializeJson(),
+                            statusCode : {
+                                200 : function(data){
+                                    $.messager.alert('提示', data ,"info");
+                                    $("#updateWindow").window('close');
+                                    $('#grid').datagrid('reload');
+                                },
+                                500 : function(data){
+                                    $.messager.alert("提示",data.responseText ,"error");
+                                }
+                            }
+                        });
+
+                    }else{
+                        $.messager.alert("警告","表单中还存在需要一些非法内容","warning");
+                    }
+                });
+
+
+            })
+		</script>
+	</head>
+
+	<body class="easyui-layout" style="visibility:hidden;">
+		<div region="center" border="false">
+			<table id="grid"></table>
+		</div>
+		<div class="easyui-window" title="区域添加修改" id="addWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
+			<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
+				<div class="datagrid-toolbar">
+					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+				</div>
+			</div>
+
+			<div region="center" style="overflow:auto;padding:5px;" border="false">
+				<form id="areaFrom">
+					<table class="table-edit" width="80%" align="center">
+						<tr class="title">
+							<td colspan="2">区域信息</td>
+						</tr>
+						<tr>
+							<td>省</td>
+							<td>
+								<input type="text" name="province" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>市</td>
+							<td>
+								<input type="text" name="city" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>区</td>
+							<td>
+								<input type="text" name="district" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>邮编</td>
+							<td>
+								<input type="text" name="postcode" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>简码</td>
+							<td>
+								<input type="text" name="shortcode" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>城市编码</td>
+							<td>
+								<input type="text" name="citycode" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		
+		<!-- 查询区域-->
+		<div class="easyui-window" title="查询区域窗口" closed="true" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="width: 400px; top:40px;left:200px">
+			<div style="overflow:auto;padding:5px;" border="false">
+				<form id="searchForm">
+					<table class="table-edit" width="80%" align="center">
+						<tr class="title">
+							<td colspan="2">查询条件</td>
+						</tr>
+						<tr>
+							<td>省份</td>
+							<td>
+								<input type="text" name="province" />
+							</td>
+						</tr>
+						<tr>
+							<td>城市</td>
+							<td>
+								<input type="text" name="city" />
+							</td>
+						</tr>
+						<tr>
+							<td>区（县）</td>
+							<td>
+								<input type="text" name="district" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"><a id="searchBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</body>
+<!--修改-->
+<div class="easyui-window" title="区域添加修改" id="updateWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
+	<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
+		<div class="datagrid-toolbar">
+			<a id="update" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+		</div>
+	</div>
+
+	<div region="center" style="overflow:auto;padding:5px;" border="false">
+		<form id="updateForm">
+			<table class="table-edit" width="80%" align="center">
+				<tr class="title">
+					<td colspan="2">区域信息</td>
+					<input type="hidden" name="id" />
+				</tr>
+				<tr>
+					<td>省</td>
+					<td>
+						<input type="text" name="province" class="easyui-validatebox" required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td>市</td>
+					<td>
+						<input type="text" name="city" class="easyui-validatebox" required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td>区</td>
+					<td>
+						<input type="text" name="district" class="easyui-validatebox" required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td>邮编</td>
+					<td>
+						<input type="text" name="postcode" class="easyui-validatebox" required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td>简码</td>
+					<td>
+						<input type="text" name="shortcode" class="easyui-validatebox" required="true" />
+					</td>
+				</tr>
+				<tr>
+					<td>城市编码</td>
+					<td>
+						<input type="text" name="citycode" class="easyui-validatebox" required="true" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+</html>

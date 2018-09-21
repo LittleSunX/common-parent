@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bos-dao-v3" />
+        <module name="bos-domain-v3" />
+        <module name="bos-fore-v3" />
+        <module name="bos-management-v3" />
+        <module name="bos-service-v3" />
+        <module name="bos-sms-v3" />
+        <module name="bos-util-v3" />
+        <module name="crm-dao-v3" />
+        <module name="crm-domain-v3" />
+        <module name="crm-management-v3" />
+        <module name="crm-service-v3" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bos-dao-v3" target="1.8" />
+      <module name="bos-domain-v3" target="1.8" />
+      <module name="bos-fore-v3" target="1.8" />
+      <module name="bos-management-v3" target="1.8" />
+      <module name="bos-service-v3" target="1.8" />
+      <module name="bos-sms-v3" target="1.8" />
+      <module name="bos-util-v3" target="1.8" />
+      <module name="common-parent-v3" target="1.8" />
+      <module name="crm-dao-v3" target="1.8" />
+      <module name="crm-domain-v3" target="1.8" />
+      <module name="crm-management-v3" target="1.8" />
+      <module name="crm-service-v3" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

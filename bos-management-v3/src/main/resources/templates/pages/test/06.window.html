@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--通用css代码-->
+    <span th:replace="/pages/common :: css('窗口测试')"></span>
+    <!--通用js代码-->
+    <span th:replace="/pages/common :: js"></span>
+    <script  type="text/javascript">
+        $(function () {
+            $("#bid").click(function () {
+                $("#win").window("open")
+                return false;
+            })
+        })
+
+    </script>
+</head>
+<body>
+   <input id="bid" type="button"  th:value="点我"/>
+    <div id="win" class="easyui-window" title="窗口" style="width:600px;height:400px"
+         data-options="iconCls:'icon-save',modal:true">
+        <iframe src="http://www.baidu.com" height="100%" width="100%" frameborder="0"></iframe>
+    </div>
+
+</body>
+</html>
