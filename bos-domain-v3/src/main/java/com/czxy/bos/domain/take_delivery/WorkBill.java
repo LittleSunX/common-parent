@@ -47,12 +47,26 @@ public class WorkBill {
 	private Integer courierId;
 	@Transient
 	private Courier courier;// 快递员
-	
-	
 	@Column(name = "ORDER_ID")
 	private Integer orderId;
+
 	@Transient
 	private Order order; // 订单
+	public Integer getCourierId() {
+		return courierId;
+	}
+
+	public void setCourierId(Integer courierId) {
+		this.courierId = courierId;
+	}
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
 
 	public Integer getId() {
 		return id;
