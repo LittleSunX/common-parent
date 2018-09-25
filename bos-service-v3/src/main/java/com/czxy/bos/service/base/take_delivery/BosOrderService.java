@@ -39,11 +39,9 @@ public class BosOrderService {
         //短信序号 -- 发短信省略
         workBill.setSmsNumber(RandomStringUtils.randomNumeric(4) );
         //订单号
-        workBill.setOrderId( order.getId() );           //注意WorkBill没有提供setter方法
+        workBill.setOrderId( order.getId() );
         //快递员号
-        workBill.setCourierId( order.getCourierId() );  //注意WorkBill没有提供setter方法
-
-
+        workBill.setCourierId( order.getCourierId() );
         workBillMapper.insert( workBill );
 
     }
