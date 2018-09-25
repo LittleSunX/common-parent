@@ -10,7 +10,7 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 @org.apache.ibatis.annotations.Mapper
-public interface SubAreaMaapper extends Mapper<SubArea> {
+public interface SubAreaMapper extends Mapper<SubArea> {
 
     @Select("SELECT * FROM t_sub_area WHERE FIXEDAREA_ID=(SELECT id FROM t_fixed_area WHERE id=#{subAreaId})")
     @Results({

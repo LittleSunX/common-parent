@@ -118,6 +118,19 @@ public class CrmCustomerController {
         return  new ResponseEntity<>(customer,HttpStatus.OK);
 
     }
+    /**
+     * 通过地址和客户id查询定区id
+     * @param address
+     * @param customerId
+     * @return
+     */
+    @GetMapping("/findFixdAreaIdByAddressAndID")
+    public ResponseEntity<String> findFixdAreaIdByAddressAndID(String address , String customerId){
+        String fixedAreaId = crmCustomerService.findFixdAreaIdByAddressAndID(address, customerId);
+
+        return  new ResponseEntity<>(fixedAreaId,HttpStatus.OK);
+
+    }
 
 
 

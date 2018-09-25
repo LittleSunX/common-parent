@@ -184,6 +184,7 @@ public class CustomerController {
         }
         //登录正常将用户存到session
         request.getSession().setAttribute("customer",customer);
+        System.out.println(customer);
         //提示登录成功
         return new ResponseEntity<>("登陆成功",HttpStatus.OK);
 

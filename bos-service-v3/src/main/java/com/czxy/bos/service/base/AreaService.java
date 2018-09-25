@@ -84,6 +84,15 @@ public class AreaService {
             
         }
     }
+    /**
+     * 通过省市县查询地区
+     * @param area
+     * @return
+     */
+    public Area  selectByArea(Area area){
+
+       return areaMapper.selectByArea(area);
+    }
 
 
 }

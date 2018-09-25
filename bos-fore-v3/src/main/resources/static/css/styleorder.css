@@ -104,9 +104,17 @@ section .nav-tabs>li.active>a:hover {
 	border-radius: 0;
 }
 
-.error {
+/*.error {
 	display: none;
+}*/
+span.error{
+	position: absolute;
+	width: 60px;
+	color: red;
+	top: 7px;
+	padding-left: 10px;
 }
+
 
 
 /*tabtitle*/

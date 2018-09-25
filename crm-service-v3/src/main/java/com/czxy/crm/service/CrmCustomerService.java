@@ -127,5 +127,23 @@ public class CrmCustomerService {
        return crmCustomerMapper.selectOneByExample(example);
 
    }
+    /**
+     * 通过地址和客户id查询定区id
+     * @param address
+     * @param customerId
+     * @return
+     */
+    public String findFixdAreaIdByAddressAndID(String address, String customerId) {
+        Example example = new Example(Customer.class);
+        example.createCriteria().andEqualTo("address",address)
+                .orEqualTo("id",customerId);
+        Customer customer = crmCustomerMapper.selectOneByExample(example);
+      //  System.out.println(customer);
+        if(customer != null){
+            return customer.getFixedAreaId();
+        }
+        return null;
+
+    }
 
 }
