@@ -23,15 +23,11 @@ public class CustomerActiveController {
      * 邮件激活后，到登录页面显示激活提示信息
      * @param telephone
      * @param activecode
-     *
-     *
-     *
-     *
      * @return
      */
     @GetMapping("/activeMail")
     public String activeMail(String telephone , String activecode, Model model){
-        System.out.println("激活");
+      //  System.out.println("激活");
         //如果判断用户提供激活码正确的？
         //1 从redis 缓存服务器中，通过“手机号”获得对应激活码
         String redisActiveCode = redisTemplate.opsForValue().get(telephone);
