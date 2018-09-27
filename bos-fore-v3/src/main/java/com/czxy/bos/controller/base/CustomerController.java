@@ -67,7 +67,7 @@ public class CustomerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//
+
         try {
             //采用active mq发送消息
             MapMessage mapMessage = new ActiveMQMapMessage();
