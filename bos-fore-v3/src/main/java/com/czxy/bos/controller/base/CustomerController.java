@@ -187,6 +187,7 @@ public class CustomerController {
         System.out.println(customer);
         //提示登录成功
         return new ResponseEntity<>("登陆成功",HttpStatus.OK);
+        //test
 
     }
 
