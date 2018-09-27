@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>运单快速录入</title>
-		<!-- 导入jquery核心类库 -->
-		<script type="text/javascript" src="../../js/jquery-1.8.3.js"></script>
-		<!-- 导入easyui类库 -->
-		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/default/easyui.css">
-		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/icon.css">
-		<link rel="stylesheet" type="text/css" href="../../js/easyui/ext/portal.css">
-		<link rel="stylesheet" type="text/css" href="../../css/default.css">
-		<script type="text/javascript" src="../../js/easyui/jquery.easyui.min.js"></script>
-		<script type="text/javascript" src="../../js/easyui/ext/jquery.portal.js"></script>
-		<script type="text/javascript" src="../../js/easyui/ext/jquery.cookie.js"></script>
-		<script src="../../js/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<span th:replace="pages/common :: css('运单快速录入')"></span>
+
+	<span th:replace="pages/common :: js"></span>
+
 		<script type="text/javascript">
-			var editIndex ;
+			/*var editIndex ;
 			
 			function doAdd(){
 				if(editIndex != undefined){
@@ -190,7 +182,171 @@
 				console.info(rowIndex);
 				$('#grid').datagrid('beginEdit',rowIndex);
 				editIndex = rowIndex;
-			}
+			}*/
+
+            var editIndex;
+            function doAdd(){
+                //在第一行插入一个新行，如果已经填写内容，再次查询，需结束之前的编辑（同时只能编辑一行）
+
+                //不是undefined，表示有编辑行
+                if(editIndex != undefined){
+                    //当前行结束编辑时，将触发 onAfterEdit() 函数，内部将 editIndex 重置成 undefined
+                    $("#grid").datagrid("endEdit",editIndex);
+                }
+                //是 undefined ，表示没有编辑行
+                if(editIndex == undefined){
+                    //记录编辑行
+                    editIndex = 0;
+                    //插入新行
+                    $("#grid").datagrid("insertRow",{
+                        index : editIndex,
+                        row : {}
+                    });
+                    //开始编辑
+                    $("#grid").datagrid("beginEdit",editIndex);
+                }
+            }
+
+            function doCancel(){
+                if(editIndex != undefined){
+                    //将触发 onCancelEdit 函数
+                    $("#grid").datagrid("cancelEdit",editIndex);
+                }
+            }
+
+            function doSave(){
+                // 将触发 onAfterEdit 函数
+                $("#grid").datagrid("endEdit",editIndex);
+            }
+
+
+            $(function () {
+                // 先将body隐藏，再显示，不会出现页面刷新效果
+                $("body").css({visibility:"visible"});
+                // 定义列
+                var columnsArr = [ [ {
+                    field : 'wayBillNum',
+                    title : '运单号',
+                    width : 120,
+                    align : 'center',
+                    editor :{
+                        type : 'validatebox',
+                        options : {
+                            required: true
+                        }
+                    }
+                }, {
+                    field : 'arriveCity',
+                    title : '到达地',
+                    width : 120,
+                    align : 'center',
+                    editor :{
+                        type : 'validatebox',
+                        options : {
+                            required: true
+                        }
+                    }
+                },{
+                    field : 'goodsType',
+                    title : '货物类型',
+                    width : 120,
+                    align : 'center',
+                    editor :{
+                        type : 'validatebox',
+                        options : {
+                            required: true
+                        }
+                    }
+                }, {
+                    field : 'num',
+                    title : '件数',
+                    width : 120,
+                    align : 'center',
+                    editor :{
+                        type : 'numberbox',
+                        options : {
+                            required: true
+                        }
+                    }
+                }, {
+                    field : 'weight',
+                    title : '重量',
+                    width : 120,
+                    align : 'center',
+                    editor :{
+                        type : 'validatebox',
+                        options : {
+                            required: true
+                        }
+                    }
+                }, {
+                    field : 'floadreqr',
+                    title : '配载要求',
+                    width : 220,
+                    align : 'center',
+                    editor :{
+                        type : 'validatebox',
+                        options : {
+                            required: true
+                        }
+                    }
+                }] ];
+
+                //工具栏
+                var toolbar = [ {
+                    id : 'button-add',
+                    text : '新增一行',
+                    iconCls : 'icon-edit',
+                    handler : doAdd
+                }, {
+                    id : 'button-cancel',
+                    text : '取消编辑',
+                    iconCls : 'icon-cancel',
+                    handler : doCancel
+                }, {
+                    id : 'button-save',
+                    text : '保存',
+                    iconCls : 'icon-save',
+                    handler : doSave
+                }];
+
+
+
+                //2 参数
+                var options = {
+                    "columns" :  columnsArr ,		//列描述
+                    "toolbar" : toolbar ,			//工具条
+                    "method" : "get",				//请求方式，查询必须是get
+                    "url" : "/wayBill/pageQuickQuery" ,					//请求路径
+                    "pagination" :  true,			//分页
+                    "rownumbers" : true ,			//行号
+                    "pageSize" : 5,				//每页显示个数
+                    "pageList" : [5,10,20] ,		//显示列表
+					 fit:true,       				//100%自动填充
+                    "striped" : true ,				//隔行换色
+                    onAfterEdit:function () {    //编辑后触发的函数
+					editIndex=undefined;
+                    },
+                    onCancelEdit : function(rowIndex, rowData){
+                    //当前编辑行如果没有id，表示新添加行，将删除该行
+                    if($("#grid").datagrid("getRows")[rowIndex].id == undefined){
+                        $("#grid").datagrid("deleteRow", rowIndex);
+                    }
+                    editIndex = undefined;	//编辑行已经取消，当前没有编辑行
+                },
+                onDblClickRow :function( rowIndex, rowData ){
+                    if(editIndex == undefined){
+                        $("#grid").datagrid("beginEdit",rowIndex);
+                        editIndex = rowIndex;	//记录当前行在编辑
+                    }
+                }
+                };
+                //3 绘制
+                $("#grid").datagrid( options  );
+
+            })
+
+
 		</script>
 	</head>
 
