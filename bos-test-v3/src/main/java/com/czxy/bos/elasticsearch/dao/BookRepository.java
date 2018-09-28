@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import java.util.List;
 
 /** 编写dao层，必须继承通用接口 ElasticsearchRepository ,也就是说父接口中已经完成增删改查操作
- * Created by liangtong on 2018/9/27.
+ *
  */
 public interface BookRepository extends ElasticsearchRepository<Book ,Integer>{
 

@@ -18,6 +18,7 @@
         <module>crm-management-v3</module>
         <module>bos-fore-v3</module>
         <module>bos-sms-v3</module>
+        <module>bos-test-v3</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/bos-management-v3/bos-management-v3.iml" filepath="$PROJECT_DIR$/bos-management-v3/bos-management-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-service-v3/bos-service-v3.iml" filepath="$PROJECT_DIR$/bos-service-v3/bos-service-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-sms-v3/bos-sms-v3.iml" filepath="$PROJECT_DIR$/bos-sms-v3/bos-sms-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-test-v3/bos-test-v3.iml" filepath="$PROJECT_DIR$/bos-test-v3/bos-test-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-util-v3/bos-util-v3.iml" filepath="$PROJECT_DIR$/bos-util-v3/bos-util-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/common-parent-v3.iml" filepath="$PROJECT_DIR$/common-parent-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/crm-dao-v3/crm-dao-v3.iml" filepath="$PROJECT_DIR$/crm-dao-v3/crm-dao-v3.iml" />

@@ -11,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by liangtong on 2018/9/27.
- */
+
 @Service
 @Transactional
 public class BookService {

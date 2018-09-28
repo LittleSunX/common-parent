@@ -12,6 +12,7 @@
         <module name="bos-management-v3" />
         <module name="bos-service-v3" />
         <module name="bos-sms-v3" />
+        <module name="bos-test-v3" />
         <module name="bos-util-v3" />
         <module name="crm-dao-v3" />
         <module name="crm-domain-v3" />
@@ -26,6 +27,7 @@
       <module name="bos-management-v3" target="1.8" />
       <module name="bos-service-v3" target="1.8" />
       <module name="bos-sms-v3" target="1.8" />
+      <module name="bos-test-v3" target="1.8" />
       <module name="bos-util-v3" target="1.8" />
       <module name="common-parent-v3" target="1.8" />
       <module name="crm-dao-v3" target="1.8" />

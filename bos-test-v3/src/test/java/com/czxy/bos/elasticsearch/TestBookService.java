@@ -12,9 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by liangtong on 2018/9/27.
- */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes= TestApplication.class)     //指定启动类
 public class TestBookService {
