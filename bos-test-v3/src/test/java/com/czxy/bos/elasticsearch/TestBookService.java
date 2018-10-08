@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
@@ -23,9 +25,9 @@ public class TestBookService {
     @Test
     public void testSave(){
         Book book = new Book();
-        book.setId(3);
-        book.setTitle("Java骨灰级");
-        book.setContent("准备下课");
+        book.setId(10);
+        book.setTitle("Java000级");
+        book.setContent("呵呵呵");
 
         bookService.save(book);
 
@@ -71,6 +73,51 @@ public class TestBookService {
             System.out.println(book);
         }
     }
+    @Test
+    public void findAll4(){
+        Pageable pageable = PageRequest.of(0,10);
+        //id 排序
+        List<Book> all = bookService.searchOrder("java");
+        for(Book book : all){
+            System.out.println(book);
+        }
+    }
+
+    @Test
+    public void findAll5(){
+        Pageable pageable = PageRequest.of(0,10);
+        //id 排序
+        Page<Book> all = bookService.searchOrder2("java",pageable);
+        System.out.println(all.getTotalPages());
+        for(Book book : all.getContent()){
+            System.out.println(book);
+        }
+    }
+
+    /**
+     * 查询所有，排序
+     */
+    @Test
+    public void testFind5(){
+
+        Iterable<Book> list = bookService.findOrderById();
+
+        for (Book book: list ) {
+            System.out.println(book);
+        }
+    }
+
+    @Test
+    public void findAll6(){
+        //id 排序
+        Page<Book> all = bookService.searchQuery(1,2);
+        System.out.println("本次数据条数：" + all.getNumberOfElements());
+        for(Book book : all.getContent()){
+            System.out.println(book);
+        }
+    }
+
+
 
 
 }

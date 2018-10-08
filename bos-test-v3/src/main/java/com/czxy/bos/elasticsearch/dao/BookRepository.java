@@ -33,5 +33,8 @@ public interface BookRepository extends ElasticsearchRepository<Book ,Integer>{
      */
     public Page<Book> findByTitleLike(String title , Pageable pageable);
 
+    //id排序
+    Page<Book> findByTitleLikeOrderByIdAsc(String title, Pageable pageable);
+
 
 }

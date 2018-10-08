@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="bos-dao-v3" />
         <module name="bos-domain-v3" />
+        <module name="bos-elasticsearch-v3" />
         <module name="bos-fore-v3" />
         <module name="bos-management-v3" />
         <module name="bos-service-v3" />
@@ -23,6 +24,7 @@
     <bytecodeTargetLevel>
       <module name="bos-dao-v3" target="1.8" />
       <module name="bos-domain-v3" target="1.8" />
+      <module name="bos-elasticsearch-v3" target="1.8" />
       <module name="bos-fore-v3" target="1.8" />
       <module name="bos-management-v3" target="1.8" />
       <module name="bos-service-v3" target="1.8" />

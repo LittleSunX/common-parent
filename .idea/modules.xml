@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bos-dao-v3/bos-dao-v3.iml" filepath="$PROJECT_DIR$/bos-dao-v3/bos-dao-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-domain-v3/bos-domain-v3.iml" filepath="$PROJECT_DIR$/bos-domain-v3/bos-domain-v3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-elasticsearch-v3/bos-elasticsearch-v3.iml" filepath="$PROJECT_DIR$/bos-elasticsearch-v3/bos-elasticsearch-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-fore-v3/bos-fore-v3.iml" filepath="$PROJECT_DIR$/bos-fore-v3/bos-fore-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-management-v3/bos-management-v3.iml" filepath="$PROJECT_DIR$/bos-management-v3/bos-management-v3.iml" />
       <module fileurl="file://$PROJECT_DIR$/bos-service-v3/bos-service-v3.iml" filepath="$PROJECT_DIR$/bos-service-v3/bos-service-v3.iml" />

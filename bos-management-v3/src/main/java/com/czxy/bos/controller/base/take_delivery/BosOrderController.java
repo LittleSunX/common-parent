@@ -10,16 +10,11 @@ import com.czxy.bos.service.base.SubAreaService;
 import com.czxy.bos.service.base.take_delivery.BosOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -119,4 +114,19 @@ public class BosOrderController {
         }
         return null;
     }
+
+    /**
+     * 查找订单
+     * @param orderNum
+     * @return
+     */
+    @GetMapping("/findByOrderNum")
+    public ResponseEntity<Order> findByOrderNum(String orderNum) {
+        // 调用业务层，查询Order信息
+        Order order = bosOrderService.findByOrderNum(orderNum);
+
+        return new ResponseEntity<>(order , HttpStatus.OK);
+    }
+
+
 }

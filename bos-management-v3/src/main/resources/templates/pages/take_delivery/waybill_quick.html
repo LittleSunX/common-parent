@@ -324,9 +324,43 @@
                     "pageList" : [5,10,20] ,		//显示列表
 					 fit:true,       				//100%自动填充
                     "striped" : true ,				//隔行换色
-                    onAfterEdit:function () {    //编辑后触发的函数
-					editIndex=undefined;
+                    onAfterEdit : function(rowIndex, rowData, changes){         //结束编辑执行的函数
+                       // console.info("编辑结束");
+                        editIndex = undefined;       //表示结束了，就没有编辑行了
+                        //发送ajax进行保存(第一行是为新行，将保存，其他行更新)
+
+                        //3项错误数据，从json对象中删除
+                        delete rowData.order;
+                        delete rowData.recArea;
+                        delete rowData.sendArea;
+
+                        $.ajax({
+                            "url" : "/wayBill/saveOrUpdateWayBill",
+                            "type" : "post",
+                            "data" : rowData,
+                            "statusCode" : {
+                                200:function(data){
+                                    //右下角提示
+                                    $.messager.show({
+                                        title:'提示',
+                                        msg:data
+                                    });
+
+                                },
+                                500:function(data){
+                                    $.messager.show({
+                                        title:'提示',
+                                        msg:data.responseText
+                                    });
+                                    //再次开启编辑
+                                    $("#grid").datagrid("beginEdit", rowIndex);
+                                    editIndex = rowIndex;
+                                },
+                            },
+                        });
+
                     },
+
                     onCancelEdit : function(rowIndex, rowData){
                     //当前编辑行如果没有id，表示新添加行，将删除该行
                     if($("#grid").datagrid("getRows")[rowIndex].id == undefined){

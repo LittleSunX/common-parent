@@ -1,112 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>运单录入</title>
-		<!-- 导入jquery核心类库 -->
-		<script type="text/javascript" src="../../js/jquery-1.8.3.js"></script>
-		<!-- 导入easyui类库 -->
-		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/default/easyui.css">
-		<link rel="stylesheet" type="text/css" href="../../js/easyui/themes/icon.css">
-		<link rel="stylesheet" type="text/css" href="../../js/easyui/ext/portal.css">
-		<link rel="stylesheet" type="text/css" href="../../css/default.css">
-		<script type="text/javascript" src="../../js/easyui/jquery.easyui.min.js"></script>
-		<script type="text/javascript" src="../../js/easyui/ext/jquery.portal.js"></script>
-		<script type="text/javascript" src="../../js/easyui/ext/jquery.cookie.js"></script>
-		<script src="../../js/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
-		<script type="text/javascript">
-			$(function() {
-				$("body").css({
-					visibility: "visible"
-				});
-				$("#no").click(function(){
-					$("#waybillForm").form("reset");
-					$("input[name='wayBillNum']").attr("readonly",false);
-					$("input[name='order.orderNum']").attr("readonly",false);
-				})
+<head>
+	<span th:replace="pages/common :: css('运单录入')"></span>
 
-				// 对save按钮条件 点击事件
-				$('#save').click(function() {
-					// 对form 进行校验
-					if($('#waybillForm').form('validate')) {
-						//TODO 表单处理普通提交，还是ajax操作？
-						//$('#waybillForm').submit();
-						$.ajax({
-							   type: "POST",
-							   url: "/wayBill/save.html",
-							   data: $("#waybillForm").serialize(),
-							   statusCode : {
-								   200 : function(data){
-									   $("#waybillForm").form('load',data.wayBillData) ;
-									// 保存成功 
-										$.messager.show({
-											title:'提示窗口',  	
-		  									msg: data.msg,
-										});
-										
-										// 重置表单
-										$("#waybillForm").get(0).reset();
-										// 页面的隐藏域，无法重置，需要手动重置
-										$("input[name='order.id']").val('');
-										$("input[name='id']").val('');
-								   }
-							   }
-						});
-					}
-				});
-				
-				// 对订单号输入项 添加 blur事件
-				$("#orderNum").blur(function(){
-					// 发起Ajax请求，查询订单数据 
-					//提交到后台的RESTful接口
-					$.ajax({
-						   type: "GET",
-						   url: "/order/findByOrderNum.html",
-						   data: {orderNum: $(this).val()},
-						   statusCode : {
-							   200 : function(data){
-								   // 装载数据 
-									$("#waybillForm").form('load',data.orderData) ;
-									// 处理无法自动load 元素
-									$("input[name='order.id']").val(data.orderData.id);
-									$("input[name='order.orderNum']").val(data.orderData.orderNum);
-									$("input[name='order.courier.company']").val(data.orderData.courier.company);
-									$("input[name='order.courier.name']").val(data.orderData.courier.name);
+	<span th:replace="pages/common :: js"></span>
+	<script type="text/javascript">
+        $(function() {
+            //页面内容显示
+            $("body").css({
+                visibility: "visible"
+            });
 
-									// 如果订单可以搜索出数据，此时执行的是新增运单，需要将id的隐藏域置空
-									// 订单和运单标识id冲突，此时表单中的id为运行id，有id为更新操作，没有id为添加操作。
-									$("input[name='id']").val('');
+            //重置表单
+            $("#no").click(function(){
+                $("#waybillForm").form("reset");
+                $("input[name='wayBillNum']").attr("readonly",false);
+                $("input[name='order.orderNum']").attr("readonly",false);
+            })
+        });
+        //订单号回显数据
+        $(function(){
 
-							   },
-							   500 : function(){
-									// 订单号 不存在，重置表单 
-									$("#waybillForm").get(0).reset();
-							   }
-						   }
-						});
-				});
-				
-				
-				// 对运单快速录入数据进行回显
-				$("#wayBillNum").blur(function(){
-					//提交到后台的RESTful接口
-					$.ajax({
-						   type: "GET",
-						   url: "/wayBill/findByWayBillNum.html",
-						   data: {wayBillNum: $(this).val()},
-						   statusCode : {
-							   200 : function(data){
-								   $("#waybillForm").form('load',data.wayBillData) ;
-							   }
-						   }
-					});
-				}); 
+            // 对订单号输入项 添加 blur事件
+            $("#orderNum").blur(function(){
+                // 发起Ajax请求，查询订单数据
+                //提交到后台的RESTful接口
+                $.ajax({
+                    type: "GET",
+                    url: "/bosOrder/findByOrderNum",
+                    data: {orderNum: $(this).val()},
+                    statusCode : {
+                        200 : function(data){
+                            // 装载数据
+                            $("#waybillForm").form('load',data) ;
+                            // 处理无法自动load 元素
+                            $("input[name='order.id']").val(data.id);
+                            // 快递员公司
+                            $("input[name='order.courier.company']").val(data.courier.company);
+                            // 快递员姓名
+                            $("input[name='order.courier.name']").val(data.courier.name);
 
-				
+                            // 如果订单可以搜索出数据，此时执行的是新增运单，需要将id的隐藏域置空
+                            // 订单和运单标识id冲突，此时表单中的id为运单id，有id为更新操作，没有id为添加操作。
+                            $("input[name='id']").val('');
 
-			});
-		</script>
+                        },
+                        500 : function(){
+                            // 订单号 不存在，重置表单
+                            $("#waybillForm").get(0).reset();
+                        }
+                    }
+                });
+            });
+        });
+        //运单号回显数据
+        $(function(){
+       // 对运单快速录入数据进行回显，如果已经有订单当前功能取消
+            $("#wayBillNum").blur(function(){
+                if($("#orderNum").val()!=""){
+                    return;
+                }
+                //提交到后台的RESTful接口
+                $.ajax({
+                    type: "GET",
+                    url: "/wayBill/findByWayBillNum",
+                    data: {wayBillNum: $(this).val()},
+                    statusCode : {
+                        200 : function(data){
+                            $("#waybillForm").form('load',data) ;
+                        }
+                    }
+                });
+            });
+        });
+        // 保存
+        $(function(){
+            $("#save").click(function(){
+                //校验
+                if($("#waybillForm").form("validate")){
+                    //发送ajax保存
+                    $.ajax({
+                        "url" : "/wayBill/saveOrUpdateWayBill" ,
+                        "type" : "post" ,
+                        "data" : $("#waybillForm").serializeJson(),
+                        "statusCode" : {
+                            200:function(data){
+                                //右下角提示
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:data,
+                                });
+
+                                //重置数据
+                                $("#waybillForm").form("clear");
+                            },
+                            500:function(data){
+                                //提示
+                                $.messager.show({
+                                    title:'提示',
+                                    msg:data.responseText,
+                                });
+                            },
+                        } ,
+                    });
+                }
+            });
+        });
+
+
+
+
+
+	</script>
 	</head>
 
 	<body>

@@ -8,7 +8,6 @@ import com.czxy.crm.domain.Customer;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsMessagingTemplate;

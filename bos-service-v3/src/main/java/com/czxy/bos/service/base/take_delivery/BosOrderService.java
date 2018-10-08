@@ -1,12 +1,15 @@
 package com.czxy.bos.service.base.take_delivery;
 
+import com.czxy.bos.dao.base.CourierMapper;
 import com.czxy.bos.dao.base.take_delivery.BosOrderMapper;
 import com.czxy.bos.dao.base.take_delivery.WorkBillMapper;
+import com.czxy.bos.domain.base.Courier;
 import com.czxy.bos.domain.take_delivery.Order;
 import com.czxy.bos.domain.take_delivery.WorkBill;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -18,6 +21,8 @@ public class BosOrderService {
     private BosOrderMapper bosOrderMapper;
     @Resource
     private WorkBillMapper workBillMapper;
+    @Resource
+    private CourierMapper courierMapper;
 
     /**
      * 保存订单
@@ -45,5 +50,22 @@ public class BosOrderService {
         workBillMapper.insert( workBill );
 
     }
+
+    /**
+     * 查找订单
+     * @param orderNum
+     * @return
+     */
+    public Order findByOrderNum(String orderNum) {
+        Example example = new Example(Order.class);
+        example.createCriteria().andEqualTo("orderNum",orderNum);
+        Order order = bosOrderMapper.selectOneByExample(example);
+        if(order!=null){
+            Courier courier = courierMapper.selectByPrimaryKey(order.getCourierId());
+            order.setCourier(courier);
+        }
+        return order;
+    }
+
 
 }

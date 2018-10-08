@@ -1,137 +1,101 @@
-package com.czxy.bos.domain.take_delivery;
+package com.czxy.bos.es.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.czxy.bos.domain.base.Area;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
-/**
- * @description:运单实体类
- */
 @Entity
-@Table(name = "T_WAY_BILL")
-public class WayBill {
-
+@Table(name="T_WAY_BILL")
+@Document(indexName="bos",type="waybill")
+public class ESWayBill {
+	//@Transient
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Field(index=true , store=true , type=FieldType.Integer )		//false
 	private Integer id;
-	@Column(name = "WAY_BILL_NUM", unique = true)
-	private String wayBillNum; // 运单编号
-	@Column(name = "ORDER_ID")
+	
+	@Field(index=true , store=true , type=FieldType.Text)	//false
+	private String wayBillNum;
+	
+	@Field(index=true , store=true , type=FieldType.Integer)	//false
 	private Integer orderId;
-	@Transient
-	private Order order; // 订单信息
-
-	@Column(name = "SEND_NAME")
+	
+	@Field(index=true , analyzer="ik_max_word" , store=true,type=FieldType.Text)
 	private String sendName; // 寄件人姓名
 	
-	@Column(name = "SEND_MOBILE")
+	@Field(index=true , analyzer="ik_max_word" , store=true, type=FieldType.Text)
 	private String sendMobile;// 寄件人电话
 	
-	@Column(name = "SEND_COMPANY")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String sendCompany;// 寄件人公司
 
-	@Column(name = "SEND_AREA_ID")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String sendAreaId;
-	@Transient
-	private Area sendArea; // 寄件人省市区信息
 	
-	
-	@Column(name = "SEND_ADDRESS")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String sendAddress;// 寄件人详细地址信息
 
-	@Column(name = "REC_NAME")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String recName;// 收件人姓名
 	
-	@Column(name = "REC_MOBILE")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String recMobile;// 收件人电话
 	
-	@Column(name = "REC_COMPANY")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String recCompany;// 收件人公司
 	
-	@Column(name = "REC_AREA_ID")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String recAreaId;
-	@Transient
-	private Area recArea; // 收件人省市区信息
-	@Column(name = "REC_ADDRESS")
+	
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String recAddress;// 收件人详细地址信息
 
-	@Column(name = "SEND_PRO_NUM")
+	//@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
+	@Field(index=true,store=true,type=FieldType.Text)							//false
 	private String sendProNum; // 快递产品类型编号：速运当日、速运次日、速运隔日
-	@Column(name = "GOODS_TYPE")
+	
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String goodsType;// 托寄物类型：文件、衣服 、食品、电子商品
-	@Column(name = "PAY_TYPE_NUM")
+	
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String payTypeNum;// 支付类型编号：寄付日结、寄付月结、到付
-	@Column(name = "WEIGHT")
+	
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Double)
 	private Double weight;// 托寄物重量
-	@Column(name = "REMARK")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String remark; // 备注
-	@Column(name = "NUM")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Integer)
 	private Integer num; // 原件数
 
-	@Column(name = "ARRIVE_CITY")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String arriveCity; // 到达地
 
-	@Column(name = "FEEITEMNUM")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Integer)
 	private Integer feeitemnum; // 实际件数
-	@Column(name = "ACTLWEIT")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Double)
 	private Double actlweit; // 实际重量
-	@Column(name = "VOL")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String vol; // 体积 输入格式为1*1*1*1，表示长*宽*高*数量
-	@Column(name = "FLOADREQR")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String floadreqr; // 配载要求 (比如录入1=无，2=禁航，4=禁航空铁路)
 
-	@Column(name = "WAY_BILL_TYPE")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String wayBillType; // 运单类型（类型包括：正常单据、异单、调单）
 	/*
 	 * 运单状态： 1 待发货、 2 派送中、3 已签收、4 异常
 	 */
-	@Column(name = "SIGN_STATUS")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Integer)
 	private Integer signStatus; // 签收状态
 
 	/*
 	 * 1、新增修改单据状态为“否” 2、作废时需将状态置为“是” 3、取消作废时需要将状态置为“否”
 	 */
-	@Column(name = "DELTAG")
+	@Field(index=true,analyzer="ik_max_word",store=true,type=FieldType.Text)
 	private String delTag; // 作废标志
-
-	public Integer getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
-	}
-
-	public String getSendAreaId() {
-		return sendAreaId;
-	}
-
-	public void setSendAreaId(String sendAreaId) {
-		this.sendAreaId = sendAreaId;
-	}
-
-	public String getRecAreaId() {
-		return recAreaId;
-	}
-
-	public void setRecAreaId(String recAreaId) {
-		this.recAreaId = recAreaId;
-	}
-
-	public String getArriveCity() {
-		return arriveCity;
-	}
-
-	public void setArriveCity(String arriveCity) {
-		this.arriveCity = arriveCity;
-	}
 
 	public Integer getId() {
 		return id;
@@ -149,12 +113,12 @@ public class WayBill {
 		this.wayBillNum = wayBillNum;
 	}
 
-	public Order getOrder() {
-		return order;
+	public Integer getOrderId() {
+		return orderId;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 
 	public String getSendName() {
@@ -181,12 +145,12 @@ public class WayBill {
 		this.sendCompany = sendCompany;
 	}
 
-	public Area getSendArea() {
-		return sendArea;
+	public String getSendAreaId() {
+		return sendAreaId;
 	}
 
-	public void setSendArea(Area sendArea) {
-		this.sendArea = sendArea;
+	public void setSendAreaId(String sendAreaId) {
+		this.sendAreaId = sendAreaId;
 	}
 
 	public String getSendAddress() {
@@ -221,12 +185,12 @@ public class WayBill {
 		this.recCompany = recCompany;
 	}
 
-	public Area getRecArea() {
-		return recArea;
+	public String getRecAreaId() {
+		return recAreaId;
 	}
 
-	public void setRecArea(Area recArea) {
-		this.recArea = recArea;
+	public void setRecAreaId(String recAreaId) {
+		this.recAreaId = recAreaId;
 	}
 
 	public String getRecAddress() {
@@ -285,6 +249,14 @@ public class WayBill {
 		this.num = num;
 	}
 
+	public String getArriveCity() {
+		return arriveCity;
+	}
+
+	public void setArriveCity(String arriveCity) {
+		this.arriveCity = arriveCity;
+	}
+
 	public Integer getFeeitemnum() {
 		return feeitemnum;
 	}
@@ -340,5 +312,8 @@ public class WayBill {
 	public void setDelTag(String delTag) {
 		this.delTag = delTag;
 	}
+	
+	
+	
 
 }
